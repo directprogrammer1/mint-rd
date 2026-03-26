@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Manrope">
+        <title>goofy ahh glass</title>
+        <style>
+            html, body {
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden;
+            }
+            :root {
+                --accent: rgba(171, 240, 196, 0.253);
+                --text: #eef6f1;
+            }
+            .glass {
+                background: linear-gradient(
+                    to bottom,
+                    rgb(255, 255, 255, 0.007),
+                    rgba(255, 255, 255, 0.01)
+                );
+                backdrop-filter: blur(14px);
+                -webkit-backdrop-filter: blur(14px);
+                border-radius: 20px;
+                box-shadow: 0 0 30px rgba(0, 0, 0, 0.13);
+                padding: 12.5px;
+                position: relative;
+                border: 1px solid transparent;
+                gap: 10px;
+                display: flex;
+                flex-direction: column;
+                border: 1px solid rgba(255, 255, 255, 0.055);
+            }
+
+            .glass::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                pointer-events: none;
+                background: linear-gradient(
+                    to bottom,
+                    rgba(255, 255, 255, 0.411) 0%,
+                    rgba(255, 255, 255, 0.03) 2px,
+                    rgba(255, 255, 255, 0.01) 5px,
+                    transparent 100%
+                );
+            }
+            .glass.header {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 15px;
+                height: 20px;
+                background: var(--accent);
+            }
+            .header h4 {
+                margin: 0;
+                font-size: 14px;
+            }
+            button[name="minimax"] {
+                width: 30px;
+                height: 30px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 0;
+                cursor: pointer;
+            }
+            button[name="minimax"] svg {
+                width: 22px;
+                height: 22px;
+                margin: 0;
+                padding: 0;
+            }
+            button.glass {
+                transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            }
+            button.glass:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.22);
+                background: rgba(255, 255, 255, 0.048);
+            }
+            label.glass {
+                transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            }
+            label.glass:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.22);
+                background: rgba(255, 255, 255, 0.048);
+            }
+            svg {
+                color: var(--text);
+            }
+            .arrow {
+                transform: none;
+                transition: transform 0.3s ease
+            }
+            .maximized .arrow {
+                transform: rotate(90deg);
+            }
+            .overlay {
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                flex-wrap: wrap;
+                width: 100%;
+                height: 100%;
+                padding: 10px;
+            }
+            .tab {
+                width: max-content;
+                height: fit-content;
+                box-sizing: border-box;
+                gap: 0;
+                position: relative;
+            }
+
+            .glass.body {
+                display: none;
+                flex-direction: column;
+                gap: 5px;
+                overflow: hidden;
+                padding: 0 12.5px;
+                margin-top: 0;
+                opacity: 0;
+                max-height: 0;
+                white-space: nowrap;
+                transition:
+                    max-height 0.3s ease,
+                    opacity 0.3s ease,
+                    padding 0.3s ease,
+                    margin-top 0.3s ease;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+            .maximized .glass.body {
+                display: flex;
+                opacity: 1;
+                padding: 12.5px;
+                margin-top: 10px;
+                max-height: 320px;
+            }
+            .glass.option {
+                color: var(--text);
+                cursor: pointer;
+                text-align: left;
+                border-radius: 15px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                font-family: "Manrope";
+                font-size: 12px;
+                justify-content: space-between;
+                padding: 4px 15px;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+            .option input[type="checkbox"] {
+                position: relative;
+                width: 43px;
+                height: 22px;
+                appearance: none;
+                border: 1px solid rgba(255,255,255,0.08);
+                border-radius: 999px;
+                background: linear-gradient(
+                    to bottom,
+                    rgba(255,255,255,0.04),
+                    rgba(255,255,255,0.02)
+                );
+                cursor: pointer;
+                outline: none;
+                transition:
+                    background 0.3s ease,
+                    border-color 0.3s ease,
+                    box-shadow 0.3s ease;
+                box-shadow:
+                    inset 0 1px 0 rgba(255,255,255,0.05),
+                    0 4px 12px rgba(0,0,0,0.12);
+                flex-shrink: 0;
+            }
+
+            .option input[type="checkbox"]::before {
+                content: "";
+                position: absolute;
+                top: 2px;
+                left: 2px;
+                width: 17px;
+                height: 17px;
+                border-radius: 50%;
+                background: linear-gradient(
+                    to bottom,
+                    rgba(255,255,255,0.85),
+                    rgba(255,255,255,0.65)
+                );
+                box-shadow:
+                    inset 0 1px 0 rgba(255,255,255,0.45),
+                    0 4px 10px rgba(0,0,0,0.18);
+                transition: transform 0.2s ease;
+            }
+
+            .option input[type="checkbox"]:checked {
+                background: linear-gradient(
+                    to bottom,
+                    rgba(171, 240, 196, 0.32),
+                    rgba(171, 240, 196, 0.212)
+                );
+                border-color: rgba(171, 240, 196, 0.35);
+                box-shadow:
+                    inset 0 1px 0 rgba(255,255,255,0.06),
+                    0 0 0 3px rgba(171, 240, 196, 0.08);
+            }
+
+            .option input[type="checkbox"]:checked::before {
+                transform: translateX(21px);
+            }
+            .option input[type="number"] {
+                appearance: none;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.137);
+                width: 50px;
+                color: var(--text);
+                font-family: "Consolas";
+                transition: background 0.3s ease;
+                border: 1px solid #eef6f121;
+                padding: 8px 10px;;
+            }
+            .option input[type="number"]:focus {
+                outline: none;
+                background: var(--accent);
+                font-family: "Consolas";
+            }
+            .option input::placeholder {
+                color: #c7ccc8
+            }
+            .overlay {
+                width: 100%;
+                height: 100%;
+                background-color: none;
+                font-family: "Manrope", sans-serif;
+                color: var(--text);
+            }
+            .overlay * {
+                scrollbar-color: rgba(255, 255, 255, 0.26) transparent;
+            }
+        </style>
+    </head>
+    <body style="background: url('https://uploads.scratch.mit.edu/get_image/project/489159823_564x420.png'); background-repeat: no-repeat; background-size: cover; height: 100%; width: 100%; padding: 0; margin: 0;">
+        <div class="overlay show">
+            <div class="glass tab maximized">
+                <div class="glass header">
+                    <button name="minimax" class="glass">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+                    </button>
+                    <h4>Player</h4>
+                </div>
+                <div class="glass body">
+                    <label class="glass option">
+                        Invinciblity
+                        <input type="checkbox" id="invincibility">
+                    </label>
+                    <label class="glass option">
+                        Flight
+                        <input type="checkbox" id="flight">
+                    </label>
+                    <label class="glass option">
+                        Noclip
+                        <input type="checkbox" id="noclip">
+                    </label>
+                    <label class="glass option">
+                        Infinite Ammo
+                        <input type="checkbox" id="infammo">
+                    </label>
+                    <label class="glass option">
+                        Instant Reload
+                        <input type="checkbox" id="instareload">
+                    </label>
+                    <label class="glass option">
+                        Landmines
+                        <input type="checkbox" id="landmines">
+                    </label>
+                    <label class="glass option">
+                        Movement Speed
+                        <input placeholder="1" class="glass" type="number" id="movespeed">
+                    </label>
+                    <label class="glass option">
+                        Jump Height
+                        <input placeholder="1" class="glass" type="number" id="jumpheight">
+                    </label>
+                </div>
+            </div>
+            <div class="glass tab maximized">
+                <div class="glass header">
+                    <button name="minimax" class="glass">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+                    </button>
+                    <h4>Game</h4>
+                </div>
+                <div class="glass body">
+                    <label class="glass option">
+                        Gravity
+                        <input type="checkbox" id="gravity">
+                    </label>
+                </div>
+            </div>
+        </div>
+        <script
+            src="https://cdn.jsdelivr.net/gh/directprogrammer1/mint-rd@main/assets/js/tab.js"
+            onerror="console.error('Error: failed to load /assets/js/tab.js')">
+        </script>
+    </body>
+</html>
