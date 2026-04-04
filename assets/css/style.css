@@ -4,14 +4,14 @@ html, body {
     overflow: hidden;
 }
 :root {
-    --accent: rgba(171, 240, 196, 0.253);
-    --text: #eef6f1;
+    --text: #c5c5c5;
+    --header: #99ccad;
 }
 .glass {
     background: linear-gradient(
         to bottom,
-        rgb(255, 255, 255, 0.007),
-        rgba(255, 255, 255, 0.01)
+        rgba(206, 206, 206, 0.02),
+        rgba(180, 180, 180, 0.02)
     );
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -23,7 +23,7 @@ html, body {
     gap: 10px;
     display: flex;
     flex-direction: column;
-    border: 1px solid rgba(255, 255, 255, 0.055);
+    border: 1px solid rgba(114, 114, 114, 0.137);
 }
 
 .glass::before {
@@ -47,6 +47,10 @@ html, body {
     gap: 15px;
     height: 20px;
     background: var(--accent);
+    border: 1px solid #99ccad57;
+}
+.glass.header * {
+    color: var(--header);
 }
 .header h4 {
     margin: 0;
