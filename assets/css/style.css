@@ -50,7 +50,7 @@ html, body {
     border: 1px solid #99ccad57;
 }
 .glass.header * {
-    color: var(--header);
+    color: var(--header) !important;
 }
 .header h4 {
     margin: 0;
