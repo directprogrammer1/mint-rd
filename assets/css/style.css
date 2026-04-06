@@ -3,6 +3,9 @@ html, body {
     height: 100vh;
     overflow: hidden;
 }
+
+/* it wont update */
+
 ::root {
     --text: #c5c5c5;
     --header: #99ccad;
