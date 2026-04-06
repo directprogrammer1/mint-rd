@@ -31,9 +31,13 @@ const mutationObserver = new MutationObserver(() => {
 });
 
 document.addEventListener("keydown", (e) => {
+    console.log("Keydown event:", e.key);
+    const overlay = document.querySelector(".overlay");
+
     if (e.key === "Tab") {
-        if (checkFullscreen()) {
+        if (checkFullscreen() && !overlay.classList.contains("show")) {
             window.isOverlayShown = !window.isOverlayShown;
+            overlay.classList.toggle("show", window.isOverlayShown);
         } else {
             document.getElementById("warning").textContent = "Please enter fullscreen to show the overlay.";
             document.getElementById("warning").style.opacity = "1";

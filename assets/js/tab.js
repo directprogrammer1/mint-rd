@@ -1,4 +1,5 @@
 const tabs = document.querySelectorAll(".glass.tab");
+console.log("Tabs:", tabs);
 
 tabs.forEach((tab) => {
     const button = tab.querySelector('[name="minimax"]');
