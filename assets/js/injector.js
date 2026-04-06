@@ -11,7 +11,7 @@ document.title = `Mint | ${document.title}`;
 async function loadOverlay() {
     // load the overlay from overlay.html
     try {
-        const res = await fetch("./overlay.html", { cache: "no-store" });
+        const res = await fetch("https://directprogrammer1.github.io/mint-rd/overlay.html", { cache: "no-store" });
         
         if (!res.ok) {
             console.error("Failed to load overlay:", res.status, res.statusText);
