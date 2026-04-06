@@ -1,71 +1,62 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Manrope">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/directprogrammer1/mint-rd@main/assets/css/style.css">
-    </head>
-    <body style="background: none; background-repeat: no-repeat; background-size: cover; height: 100%; width: 100%; padding: 0; margin: 0;">
-        <div class="overlay show">
-            <div class="glass tab maximized">
-                <div class="glass header">
-                    <button name="minimax" class="glass">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
-                    </button>
-                    <h4>Player</h4>
-                </div>
-                <div class="glass body">
-                    <label class="glass option">
-                        Invinciblity
-                        <input type="checkbox" id="invincibility">
-                    </label>
-                    <label class="glass option">
-                        Flight
-                        <input type="checkbox" id="flight">
-                    </label>
-                    <label class="glass option">
-                        Noclip
-                        <input type="checkbox" id="noclip">
-                    </label>
-                    <label class="glass option">
-                        Infinite Ammo
-                        <input type="checkbox" id="infammo">
-                    </label>
-                    <label class="glass option">
-                        Instant Reload
-                        <input type="checkbox" id="instareload">
-                    </label>
-                    <label class="glass option">
-                        Landmines
-                        <input type="checkbox" id="landmines">
-                    </label>
-                    <label class="glass option">
-                        Movement Speed
-                        <input placeholder="1" class="glass" type="number" id="movespeed">
-                    </label>
-                    <label class="glass option">
-                        Jump Height
-                        <input placeholder="1" class="glass" type="number" id="jumpheight">
-                    </label>
-                </div>
-            </div>
-            <div class="glass tab maximized">
-                <div class="glass header">
-                    <button name="minimax" class="glass">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
-                    </button>
-                    <h4>Game</h4>
-                </div>
-                <div class="glass body">
-                    <label class="glass option">
-                        Gravity
-                        <input placeholder="1" class="glass" type="number" id="gravity">
-                    </label>
-                </div>
-            </div>
+<div class="overlay show">
+    <div class="glass tab maximized">
+        <div class="glass header">
+            <button name="minimax" class="glass">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+            </button>
+            <h4>Player</h4>
         </div>
-        <script
-            src="https://cdn.jsdelivr.net/gh/directprogrammer1/mint-rd@main/assets/js/tab.js"
-            onerror="console.error('Error: failed to load /assets/js/tab.js')">
-        </script>
-    </body>
-</html>
+        <div class="glass body">
+            <label class="glass option">
+                Invinciblity
+                <input type="checkbox" id="invincibility">
+            </label>
+            <label class="glass option">
+                Flight
+                <input type="checkbox" id="flight">
+            </label>
+            <label class="glass option">
+                Noclip
+                <input type="checkbox" id="noclip">
+            </label>
+            <label class="glass option">
+                Infinite Ammo
+                <input type="checkbox" id="infammo">
+            </label>
+            <label class="glass option">
+                Instant Reload
+                <input type="checkbox" id="instareload">
+            </label>
+            <label class="glass option">
+                Landmines
+                <input type="checkbox" id="landmines">
+            </label>
+            <label class="glass option">
+                Movement Speed
+                <input placeholder="1" class="glass" type="number" id="movespeed">
+            </label>
+            <label class="glass option">
+                Jump Height
+                <input placeholder="1" class="glass" type="number" id="jumpheight">
+            </label>
+        </div>
+    </div>
+    <div class="glass tab maximized">
+        <div class="glass header">
+            <button name="minimax" class="glass">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 6l6 6l-6 6" /></svg>
+            </button>
+            <h4>Game</h4>
+        </div>
+        <div class="glass body">
+            <label class="glass option">
+                Gravity
+                <input placeholder="1" class="glass" type="number" id="gravity">
+            </label>
+        </div>
+    </div>
+</div>
+<script
+    src="https://cdn.jsdelivr.net/gh/directprogrammer1/mint-rd@main/assets/js/tab.js"
+    onerror="console.error('Error: failed to load /assets/js/tab.js')">
+</script>

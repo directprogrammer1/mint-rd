@@ -6,6 +6,10 @@
     background-color: none;
     font-family: "Manrope", sans-serif;
     color: var(--text);
+    position: fixed;
+    inset: 0;
+    flex: 1 1 0;
+    overflow: auto;
 }
 
 /* it wont update */
