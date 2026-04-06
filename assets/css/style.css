@@ -4,6 +4,14 @@ html, body {
     overflow: hidden;
 }
 
+.overlay {
+    width: 100%;
+    height: 100%;
+    background-color: none;
+    font-family: "Manrope", sans-serif;
+    color: var(--text);
+}
+
 /* it wont update */
 
 ::root {
@@ -234,13 +242,6 @@ svg {
 }
 .option input::placeholder {
     color: #c7ccc8
-}
-.overlay {
-    width: 100%;
-    height: 100%;
-    background-color: none;
-    font-family: "Manrope", sans-serif;
-    color: var(--text);
 }
 .overlay * {
     scrollbar-color: rgba(255, 255, 255, 0.26) transparent;
