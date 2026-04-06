@@ -40,10 +40,12 @@ async function runScript(src) {
     }
 }
 
-loadOverlay();
-
-// load overlay BEFORE tab.js
-
-runScript("https://directprogrammer1.github.io/mint-rd/assets/js/overlay.js");
-runScript("https://directprogrammer1.github.io/mint-rd/assets/js/tab.js");
+(async () => {
+    console.log("Loading overlay...");
+    await loadOverlay();
+    console.log("Overlay loaded, running scripts...");
+    
+    await runScript("https://directprogrammer1.github.io/mint-rd/assets/js/overlay.js");
+    await runScript("https://directprogrammer1.github.io/mint-rd/assets/js/tab.js");
+})();
 // overlay should be hidden when not in fullscreen, otherwise can be shown with tab key/button

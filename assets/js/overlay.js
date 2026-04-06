@@ -3,8 +3,9 @@
 window.isOverlayShown = false;
 
 function checkFullscreen() {
-    const isFullscreen = document.querySelectorAll('[class*="full-screen"]');
-    return isFullscreen.length > 0;
+    const elementFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+    const classFullscreen = document.querySelectorAll('[class*="full-screen"]');
+    return Boolean(elementFullscreen) || classFullscreen.length > 0;
 }
 
 function injectHead(text) { document.head.insertAdjacentHTML("afterbegin", text); }
@@ -57,13 +58,20 @@ window.overlayKeydownHandler = (e) => {
         overlay.classList.toggle("show", window.isOverlayShown);
     } else {
         console.log("Not in fullscreen, showing warning.");
-        document.getElementById("warning").textContent = "Please enter fullscreen to show the overlay.";
-        document.getElementById("warning").style.opacity = "1";
-        document.getElementById("warning").style.transform = "translateY(0px)";
+        window.isOverlayShown = true;
+        overlay.classList.add("show");
+        const warning = document.getElementById("warning");
+        warning.textContent = "Please enter fullscreen to show the overlay.";
+        warning.style.opacity = "1";
+        warning.style.transform = "translateY(0px)";
 
         setTimeout(() => {
-            document.getElementById("warning").style.opacity = "0";
-            document.getElementById("warning").style.transform = "translateY(10px)";
+            warning.style.opacity = "0";
+            warning.style.transform = "translateY(10px)";
+            if (!checkFullscreen()) {
+                window.isOverlayShown = false;
+                overlay.classList.remove("show");
+            }
         }, 2000);
     }
     e.preventDefault();
