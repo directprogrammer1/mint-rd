@@ -35,7 +35,8 @@ document.addEventListener("keydown", (e) => {
     const overlay = document.querySelector(".overlay");
 
     if (e.key === "Tab") {
-        if (checkFullscreen() && !overlay.classList.contains("show")) {
+        if (checkFullscreen()) {
+            console.log("Fullscreen detected, toggling overlay.");
             window.isOverlayShown = !window.isOverlayShown;
             overlay.classList.toggle("show", window.isOverlayShown);
         } else {
