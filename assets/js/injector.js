@@ -29,7 +29,7 @@ async function loadOverlay() {
 
 async function runScript(src) {
     try {
-        const res = await fetch(src, { cache: "no-store" });
+        const res = await fetch(src, { cache: "no-store" }); // No more caching.
         const script = await res.text();
 
         console.log("Running script with src", src);
@@ -40,7 +40,10 @@ async function runScript(src) {
     }
 }
 
+loadOverlay();
+
+// load overlay BEFORE tab.js
+
 runScript("https://directprogrammer1.github.io/mint-rd/assets/js/overlay.js");
 runScript("https://directprogrammer1.github.io/mint-rd/assets/js/tab.js");
-loadOverlay();
 // overlay should be hidden when not in fullscreen, otherwise can be shown with tab key/button
