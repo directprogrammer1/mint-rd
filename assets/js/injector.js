@@ -31,9 +31,12 @@ async function runScript(src) {
     try {
         const res = await fetch(src);
         const script = await res.text();
+
+        console.log("Running script with src", src);
+        
         eval(script);
     } catch (e) {
-        console.error("Network error", e);
+        console.error("Failed to run script", e);
     }
 }
 

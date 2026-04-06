@@ -7,6 +7,8 @@ function checkFullscreen() {
     // wow very short function
 }
 
+function injectHead(text) { document.head.insertAdjacentHTML("afterbegin", text); }
+
 function setFavicon() {
     document.querySelectorAll('link[rel~="icon"]').forEach(el => el.remove());
     injectHead('<link rel="icon" type="image/x-icon" href="https://cdn.jsdelivr.net/gh/directprogrammer1/mint-rd/assets/mint-logo.ico">');
@@ -29,4 +31,4 @@ const mutationObserver = new MutationObserver(() => {
 
 mutationObserver.observe(document.body, { attributes: true, subtree: true });
 
-// closing function fow now
+// closing function for now
