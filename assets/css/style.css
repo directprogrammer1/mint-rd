@@ -3,7 +3,7 @@ html, body {
     height: 100vh;
     overflow: hidden;
 }
-:root {
+::root {
     --text: #c5c5c5;
     --header: #99ccad;
 }
