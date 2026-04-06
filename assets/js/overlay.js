@@ -11,20 +11,18 @@ function injectHead(text) { document.head.insertAdjacentHTML("afterbegin", text)
 
 function setFavicon() {
     document.querySelectorAll('link[rel~="icon"]').forEach(el => el.remove());
-    injectHead('<link rel="icon" type="image/x-icon" href="https://cdn.jsdelivr.net/gh/directprogrammer1/mint-rd/assets/mint-logo.ico">');
+    injectHead('<link rel="icon" type="image/x-icon" href="https://directprogrammer1.github.io/mint-rd/assets/mint-logo.ico">');
 }
 
 const mutationObserver = new MutationObserver(() => {
     mutationObserver.disconnect(); // overlay can be shown which would cause a crash
 
     const overlay = document.querySelector(".overlay");
-
     const isFullscreen = checkFullscreen();
 
     overlay.classList.toggle("show", isFullscreen);
 
     setFavicon();
-
     mutationObserver.observe(document.body, { attributes: true, subtree: true });
 });
 
