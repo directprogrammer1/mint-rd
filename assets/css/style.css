@@ -9,7 +9,7 @@
     position: fixed;
     inset: 0;
     flex: 1 1 0;
-    overflow: auto;
+    overflow: hidden;
     pointer-events: none;
 
     display: flex;
@@ -300,7 +300,21 @@ label.glass:hover {
     transition: opacity 0.3s ease, transform 0.3s ease;
 
     opacity: 0;
+    pointer-events: none;
 }
 .glass.message * {
     font-family: "Manrope"
+}
+.msg-wrapper {
+    display: flex;
+    position: fixed;
+
+    inset: 0;
+    background: none;
+    z-index: 9999999999999;
+    
+    justify-content: center;
+    align-items: center;
+
+    pointer-events: none;
 }
