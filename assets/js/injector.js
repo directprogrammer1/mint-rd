@@ -4,7 +4,7 @@ console.log("Running injector...")
 function injectHead(text) { document.head.insertAdjacentHTML("afterbegin", text); }
 
 injectHead('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Manrope">');
-injectHead('<link rel="stylesheet" href="./assets/css/style.css">');
+injectHead('<link rel="stylesheet" href="https://directprogrammer1.github.io/mint-rd/assets/css/style.css">');
 
 document.title = `Mint | ${document.title}`;
 
@@ -44,6 +44,6 @@ loadOverlay();
 
 // load overlay BEFORE tab.js
 
-runScript("./assets/js/overlay.js");
-runScript("./assets/js/tab.js");
+runScript("https://directprogrammer1.github.io/mint-rd/assets/js/overlay.js");
+runScript("https://directprogrammer1.github.io/mint-rd/assets/js/tab.js");
 // overlay should be hidden when not in fullscreen, otherwise can be shown with tab key/button
