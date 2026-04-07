@@ -1,6 +1,7 @@
 // if fullscreen the style attribute will be shown, check every time with a mutationObserver
 
 window.isOverlayShown = false;
+window.isWarningShown = false;
 
 function checkFullscreen() {
     const elementFullscreen = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
@@ -57,7 +58,9 @@ window.overlayKeydownHandler = (e) => {
         window.isOverlayShown = !window.isOverlayShown;
         overlay.classList.toggle("show", window.isOverlayShown);
     } else {
+        if (window.isWarningShown) return; // Prevent multiple warnings
         console.log("Not in fullscreen, showing warning.");
+        window.isWarningShown = true;
         window.isOverlayShown = true;
         overlay.classList.add("show");
         const warning = document.getElementById("warning");
@@ -72,6 +75,7 @@ window.overlayKeydownHandler = (e) => {
                 window.isOverlayShown = false;
                 overlay.classList.remove("show");
             }
+            window.isWarningShown = false;
         }, 2000);
     }
     e.preventDefault();
