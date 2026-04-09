@@ -20,6 +20,9 @@
     -webkit-backdrop-filter: blur(0px);
 
     transition: opacity 0.3s ease, backdrop-filter 0.3s ease;
+
+    align-content: flex-start;
+    align-items: flex-start;
 }
 
 .overlay.show {
@@ -42,8 +45,8 @@
 
 /* it wont update */
 :root {
-    --text: #c5c5c5;
-    --header: #a7ffca;
+    --text: #7e7e7e;
+    --header: #85d890;
 
     --accent: #9bffc32b;
 }
@@ -272,6 +275,7 @@ label.glass:hover {
 .option input[type="number"]:focus {
     outline: none;
     background: var(--accent);
+    border: 1px solid rgba(102, 114, 88, 0.137);
     font-family: "Consolas";
 }
 .option input::placeholder {
@@ -289,7 +293,7 @@ label.glass:hover {
     padding: 5px 20px;
     font-size: 16px;
 
-    color: var(--text);
+    color: #eef6f1;
     background: linear-gradient(
         to bottom,
         #ff00002f,
@@ -317,4 +321,15 @@ label.glass:hover {
     align-items: center;
 
     pointer-events: none;
+}
+input[type="text"] {
+    width: 135px;
+    transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
+    color: var(--text);
+}
+input[type="text"]:focus {
+    outline: none;
+    border: 1px solid rgba(114, 168, 121, 0.137);
+    background: var(--accent);
+    color: var(--header);
 }

@@ -40,6 +40,7 @@ tabs.forEach((tab) => {
             const onEnd = (e) => {
                 if (e.propertyName !== "max-height") return;
                 body.style.display = "none";
+                tab.style.width = "";
                 body.removeEventListener("transitionend", onEnd);
             };
 

@@ -6,9 +6,15 @@ class MintClient {
                 moveSpeed: 1,
                 jump: 1,
                 gravity: 1,
-                speed: 1, // not to be confused with moveSpeed, speed changes the runtime speed directly.
-                defaultSpeed: 1,
-            }
+                speed: 1,
+                defaultSpeed: this.getVariable("Speed")?.value || 50,
+            },
+
+            setSpeed: this.setSpeed.bind(this),
+            setUsername: this.setUsername.bind(this),
+            getUsername: this.getUsername.bind(this),
+            setVar: this.setVar.bind(this),
+            getVariable: this.getVariable.bind(this)
         };
     }
 
@@ -25,48 +31,77 @@ class MintClient {
         return true;
     }
 
-    getVariable(name, target = 0) { // Target 0 is the stage
+    getTarget(targetIndex = 0) {
+        if (!this.requireVM()) return null;
+        return this.vm.runtime.targets[targetIndex] || null;
+    }
+
+    getVariable(name, targetIndex = 0) {
         if (!this.requireVM()) return null;
 
-        const vars = target.variables;
+        const targetObj = typeof targetIndex === "number"
+            ? this.getTarget(targetIndex)
+            : targetIndex;
+
+        if (!targetObj) {
+            console.warn(`Target ${targetIndex} not found.`);
+            return null;
+        }
+
+        const vars = targetObj.variables || {};
 
         for (const variable of Object.values(vars)) {
-            if (variable.name === wantedName) {
+            if (variable.name === name) {
                 return variable;
             }
         }
+
         console.warn(`Variable with name ${name} not found.`);
         return null;
     }
 
-    setVar(name, value, target = 0) { // Target 0 is the stage
+    setVar(name, value, targetIndex = 0) {
         if (!this.requireVM()) return;
 
-        const target = this.vm.runtime.targets[target];
-        if (!target) {
-            console.warn(`Target with id ${target} not found.`);
+        const targetObj = this.getTarget(targetIndex);
+        if (!targetObj) {
+            console.warn(`Target ${targetIndex} not found.`);
             return;
         }
 
-        let variable = this.getVariable(name, target);
+        const variable = this.getVariable(name, targetObj);
 
         if (variable) {
             variable.value = value;
             console.log(`Variable ${variable.name} set to: ${value}`);
         } else {
-            console.warn(`Variable with name ${name} not found on target ${target.id}.`);
+            console.warn(`Variable with name ${name} not found on target ${targetIndex}.`);
         }
     }
 
     setUsername(username) {
         if (!this.requireVM()) return;
-        this.vm.runtime.ioDevices.userData._username = username; // set in the vm directly.
-        console.log(`Username set to: ${this.username}`);
+        this.vm.runtime.ioDevices.userData._username = username;
+        console.log(`Username set to: ${username}`);
     }
 
     getUsername() {
         if (!this.requireVM()) return null;
-        return this.vm.runtime.ioDevices.userData._username; // get directly from VM for more accuracy.
+        return this.vm.runtime.ioDevices.userData._username;
+    }
+
+    setSpeed(multiplier) {
+        if (!this.requireVM()) return;
+
+        this.player.multipliers.defaultSpeed =
+            Number(this.player.multipliers.defaultSpeed) ||
+            Number(this.getVariable("Speed")?.value) ||
+            50;
+
+        this.player.multipliers.speed = multiplier;
+        this.setVar("Speed", this.player.multipliers.defaultSpeed * multiplier);
+
+        console.log(`Speed multiplier set to: ${multiplier}`);
     }
 }
 
