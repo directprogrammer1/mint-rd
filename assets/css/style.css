@@ -279,7 +279,7 @@ label.glass:hover {
     font-family: "Consolas";
 }
 .option input::placeholder {
-    color: #c7ccc8
+    color: #979797
 }
 .overlay * {
     scrollbar-color: rgba(255, 255, 255, 0.26) transparent;
@@ -325,7 +325,7 @@ label.glass:hover {
 input[type="text"] {
     width: 135px;
     transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
-    color: var(--text);
+    color: #c7ccc8;
 }
 input[type="text"]:focus {
     outline: none;
