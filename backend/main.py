@@ -2,6 +2,9 @@ import fastapi
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query, Form
 import pymysql
 import os
+from better_profanity import Profanity
+
+Profanity.load_censor_words()
 
 app = FastAPI()
 
@@ -38,18 +41,19 @@ async def chat_ws(ws: WebSocket):
             message = str(data["message"]).strip()
 
             if not username or not project_id or not message:
-                await ws.send_json({"error": "username, project_id, and message must not be empty."})
+                await ws.send_json({"error": "username, project_id, and message must not be empty.", "status_code": 400})
                 continue
 
             if len(message) > 150:
-                await ws.send_json({"error": "Message too long (max 150 chars)."})
+                await ws.send_json({"error": "Message too long (max 150 chars).", "status_code": 400})
+                continue
+            if Profanity.contains_profanity(str(data["message"]).strip()):
+                await ws.send_json({"error": "Message contains profanities.", "status_code": 400})
                 continue
 
-            # put socket into the room
             rooms.setdefault(project_id, set()).add(ws)
             joined_project_id = project_id
 
-            # save to DB
             conn = get_connection()
             try:
                 with conn.cursor() as cur:
@@ -86,7 +90,6 @@ async def chat_ws(ws: WebSocket):
                 "message": message,
             }
 
-            # broadcast to everyone in same room
             dead = []
             for client in rooms.get(project_id, set()):
                 try:

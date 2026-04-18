@@ -23,8 +23,8 @@ if (window.overlayMutationObserver) {
 window.overlayMutationObserver = new MutationObserver(() => {
     window.overlayMutationObserver.disconnect(); // overlay can be shown which would cause a crash
 
-    const overlay = document.querySelector(".overlay");
-    if (!overlay) {
+    const toShow = document.querySelectorAll('div[name="show-toggle"]');
+    if (!toShow) {
         window.overlayMutationObserver.observe(document.body, { attributes: true, subtree: true });
         return;
     }
@@ -33,7 +33,7 @@ window.overlayMutationObserver = new MutationObserver(() => {
 
     if (!isFullscreen) window.isOverlayShown = false;
 
-    overlay.classList.toggle("show", window.isOverlayShown);
+    toShow.forEach(el => el.toggle("show", window.isOverlayShown));
 
     setFavicon();
     window.overlayMutationObserver.observe(document.body, { attributes: true, subtree: true });
@@ -45,24 +45,24 @@ if (window.overlayKeydownHandler) {
 
 window.overlayKeydownHandler = (e) => {
     console.log("Keydown event:", e.key);
-    const overlay = document.querySelector(".overlay");
+    const toShow = document.querySelectorAll('div[name="show-toggle"]');
 
     if (e.key !== "Tab") return;
-    if (!overlay) {
-        console.warn("Overlay element not loaded yet.");
+    if (!toShow) {
+        console.warn("Overlay & menu elements not loaded yet.");
         return;
     }
 
     if (checkFullscreen()) {
         console.log("Fullscreen detected, toggling overlay.");
         window.isOverlayShown = !window.isOverlayShown;
-        overlay.classList.toggle("show", window.isOverlayShown);
+        toShow.forEach(el => el.classList.toggle("show", window.isOverlayShown));
     } else {
         if (window.isWarningShown) return; // Prevent multiple warnings
         console.log("Not in fullscreen, showing warning.");
         window.isWarningShown = true;
         window.isOverlayShown = true;
-        overlay.classList.add("show");
+        toShow.forEach(el => el.classList.add("show"));
         const warning = document.getElementById("warning");
         warning.textContent = "Please enter fullscreen to show the overlay.";
         warning.style.opacity = "1";
@@ -73,7 +73,7 @@ window.overlayKeydownHandler = (e) => {
             warning.style.transform = "translateY(10px)";
             if (!checkFullscreen()) {
                 window.isOverlayShown = false;
-                overlay.classList.remove("show");
+                toShow.forEach(el => el.classList.remove("show"));
             }
             window.isWarningShown = false;
         }, 2000);
