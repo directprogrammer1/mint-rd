@@ -1,3 +1,9 @@
+const mintLog = (content, type = "log") => {
+    if (typeof globalThis.log === "function") {
+        globalThis.log(content, type);
+    }
+};
+
 class MintClient {
     constructor() {
         this.vm = null;
@@ -7,7 +13,7 @@ class MintClient {
                 jump: 1,
                 gravity: 1,
                 speed: 1,
-                defaultSpeed: this.getVariable("Speed")?.value || 50,
+                defaultSpeed: 50,
             },
 
             setSpeed: this.setSpeed.bind(this),
@@ -20,12 +26,21 @@ class MintClient {
 
     init(vm) {
         this.vm = vm;
-        console.log("VM assigned");
+
+        const speedVar = this.getVariable("Speed");
+        if (speedVar) {
+            this.player.multipliers.defaultSpeed = Number(speedVar.value) || 50;
+        }
+
+        mintLog("VM assigned", "info");
     }
 
     requireVM() {
         if (!this.vm) {
-            console.warn("A scratch/turbowarp VM is required for this operation. Call client.init(vm) first.");
+            mintLog(
+                "A scratch/turbowarp VM is required for this operation. Call client.init(vm) first.",
+                "warn"
+            );
             return false;
         }
         return true;
@@ -44,7 +59,7 @@ class MintClient {
             : targetIndex;
 
         if (!targetObj) {
-            console.warn(`Target ${targetIndex} not found.`);
+            mintLog(`Target ${targetIndex} not found.`, "warn");
             return null;
         }
 
@@ -56,7 +71,7 @@ class MintClient {
             }
         }
 
-        console.warn(`Variable with name ${name} not found.`);
+        mintLog(`Variable with name ${name} not found.`, "warn");
         return null;
     }
 
@@ -65,7 +80,7 @@ class MintClient {
 
         const targetObj = this.getTarget(targetIndex);
         if (!targetObj) {
-            console.warn(`Target ${targetIndex} not found.`);
+            mintLog(`Target ${targetIndex} not found.`, "warn");
             return;
         }
 
@@ -73,16 +88,16 @@ class MintClient {
 
         if (variable) {
             variable.value = value;
-            console.log(`Variable ${variable.name} set to: ${value}`);
+            mintLog(`Variable ${variable.name} set to: ${value}`, "info");
         } else {
-            console.warn(`Variable with name ${name} not found on target ${targetIndex}.`);
+            mintLog(`Variable with name ${name} not found on target ${targetIndex}.`, "warn");
         }
     }
 
     setUsername(username) {
         if (!this.requireVM()) return;
         this.vm.runtime.ioDevices.userData._username = username;
-        console.log(`Username set to: ${username}`);
+        mintLog(`Username set to: ${username}`, "info");
     }
 
     getUsername() {
@@ -101,9 +116,8 @@ class MintClient {
         this.player.multipliers.speed = multiplier;
         this.setVar("Speed", this.player.multipliers.defaultSpeed * multiplier);
 
-        console.log(`Speed multiplier set to: ${multiplier}`);
+        mintLog(`Speed multiplier set to: ${multiplier}`, "info");
     }
 }
 
-// global
 window.MintClient = MintClient;

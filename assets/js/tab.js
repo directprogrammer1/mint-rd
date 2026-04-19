@@ -1,5 +1,11 @@
+const mintLog = (content, type = "log") => {
+    if (typeof globalThis.log === "function") {
+        globalThis.log(content, type);
+    }
+};
+
 const tabs = document.querySelectorAll(".glass.tab");
-console.log("Tabs:", tabs);
+mintLog(`Tabs found: ${tabs.length}`, "info");
 
 tabs.forEach((tab) => {
     const button = tab.querySelector('[name="minimax"]');
