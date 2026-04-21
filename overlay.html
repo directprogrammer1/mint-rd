@@ -1,7 +1,9 @@
-<link rel="stylesheet" href="https://directprogrammer1.github.io/mint-rd/assets/css/style.css">
+<link rel="stylesheet" href="https://directprogrammer1.github.io/mint-client/assets/css/style.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope">
+<link rel="stylesheet" href="/assets/css/style.css">
 <!-- fallback links -->
-<div class="overlay" name="show-toggle">
+<!-- temporarily show overlay while i'm testing -->
+<div class="overlay show" name="show-toggle">
     <div class="glass tab maximized">
         <div class="glass header">
             <button name="minimax" class="glass">
@@ -78,9 +80,12 @@
         <h3>Please enter fullscreen to show the overlay.</h3>
     </div>
 </div>
-<div class="menubar-wrapper" name="show-toggle">
+<div class="menubar-wrapper show" name="show-toggle">
     <div class="glass menubar">
-        <img src="/assets/mint-logo.ico">
+        <a href="https://github.com/directprogrammer1/mint-client">
+            <img src="https://directprogrammer1.github.io/mint-client/assets/mint-logo.ico">
+        </a>
+        
         <div class="menubar-options">
             <button id="terminal" class="menubar-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 9l3 3l-3 3" /><path d="M13 15l3 0" /><path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" /></svg>
@@ -95,5 +100,26 @@
                 Hacks
             </button>
         </div>
+    </div>
+</div>
+<div class="draggable glass chat" name="drag-move">
+    <div class="drag-content" style="overflow: visible; position: relative; z-index: 0;">
+        <div id="chat-content">
+        </div>
+    </div>
+    <div class="drag-header glass">
+        <span>Chat</span>
+        <div class="drag-btns">
+            <button class="glass" name="drag-close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M10 10l4 4m0 -4l-4 4" /></svg>
+            </button>
+        </div>
+    </div>
+    <div id="chat-msg-container" class="glass">
+        <input class="glass" type="text" id="chat-text" placeholder="Type something...">
+        <button class="glass" id="chat-send" disabled>
+            <svg class="enabled" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-send"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 14l11 -11" /><path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" /></svg>
+            <svg class="disabled" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 14l2 -2m2 -2l7 -7" /><path d="M10.718 6.713l10.282 -3.713l-3.715 10.289m-1.063 2.941l-1.722 4.77a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l4.772 -1.723" /><path d="M3 3l18 18" /></svg>
+        </button>
     </div>
 </div>

@@ -1,5 +1,39 @@
 // inject all link rel
 
+function log(content, type = "log") {
+    function getTimestamp() {
+        const d = new Date();
+        const pad = (n, len = 2) => String(n).padStart(len, "0");
+
+        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} `
+             + `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}.`
+             + `${pad(d.getMilliseconds(), 3)}`;
+    }
+
+    let color;
+    if (type === "warn") {
+        color = "yellow";
+    } else if (type === "error") {
+        color = "red";
+    } else if (type === "info") {
+        color = "dodgerblue";
+    } else {
+        color = "gray";
+    }
+
+    const typeText = type.toUpperCase().padEnd(7, " "); // fixed width
+
+    console.log(
+        `%c[mint] %c${getTimestamp()} %c${typeText} %c${content}`,
+        "color: #85d890; font-weight: bold; font-family: monospace;",
+        "color: white; font-family: monospace;",
+        `color: ${color}; font-family: monospace;`,
+        "color: white; font-family: monospace;"
+    );
+}
+
+// keep log here so it can be used before load
+
 log("Running injector...", "info");
 function injectHead(text) { document.head.insertAdjacentHTML("afterbegin", text); }
 
@@ -41,13 +75,15 @@ async function runScript(src) {
 }
 
 (async () => {
+    await runScript("https://directprogrammer1.github.io/mint-rd/assets/js/log.js"); // log is to be first initialized so that it can be used early on
+
     log("Loading overlay...", "info");
     await loadOverlay();
     log("Overlay loaded, running scripts...", "info");
     
-    await runScript("https://directprogrammer1.github.io/mint-rd/assets/js/log.js");
     await runScript("https://directprogrammer1.github.io/mint-rd/assets/js/client.js"); // Initialize client as second item
-    await runScript("https://directprogrammer1.github.io/mint-rd/assets/js/overlay.js");
-    await runScript("https://directprogrammer1.github.io/mint-rd/assets/js/tab.js");
+    await runScript("https://directprogrammer1.github.io/mint-rd/assets/js/ui/overlay.js");
+    await runScript("https://directprogrammer1.github.io/mint-rd/assets/js/ui/tab.js");
 })();
+
 // overlay should be hidden when not in fullscreen, otherwise can be shown with tab key/button
