@@ -38,14 +38,14 @@ log("Running injector...", "info");
 function injectHead(text) { document.head.insertAdjacentHTML("afterbegin", text); }
 
 injectHead('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Manrope">');
-injectHead('<link rel="stylesheet" href="https://directprogrammer1.github.io/mint-rd/assets/css/style.css">');
+injectHead('<link rel="stylesheet" href="https://directprogrammer1.github.io/mint-client/assets/css/style.css">');
 
 document.title = `Mint | ${document.title}`;
 
 async function loadOverlay() {
     // load the overlay from overlay.html
     try {
-        const res = await fetch("https://directprogrammer1.github.io/mint-rd/overlay.html", { cache: "no-store" }); // allow for updating
+        const res = await fetch("https://directprogrammer1.github.io/mint-client/overlay.html", { cache: "no-store" }); // allow for updating
         
         if (!res.ok) {
             log(`Failed to load overlay (error ${res.status}), error text: ${res.statusText}`, "warn");
@@ -75,15 +75,15 @@ async function runScript(src) {
 }
 
 (async () => {
-    await runScript("https://directprogrammer1.github.io/mint-rd/assets/js/log.js"); // log is to be first initialized so that it can be used early on
+    await runScript("https://directprogrammer1.github.io/mint-client/assets/js/log.js"); // log is to be first initialized so that it can be used early on
 
     log("Loading overlay...", "info");
     await loadOverlay();
     log("Overlay loaded, running scripts...", "info");
     
-    await runScript("https://directprogrammer1.github.io/mint-rd/assets/js/client.js"); // Initialize client as second item
-    await runScript("https://directprogrammer1.github.io/mint-rd/assets/js/ui/overlay.js");
-    await runScript("https://directprogrammer1.github.io/mint-rd/assets/js/ui/tab.js");
+    await runScript("https://directprogrammer1.github.io/mint-client/assets/js/client.js"); // Initialize client as second item
+    await runScript("https://directprogrammer1.github.io/mint-client/assets/js/ui/overlay.js");
+    await runScript("https://directprogrammer1.github.io/mint-client/assets/js/ui/tab.js");
 })();
 
 // overlay should be hidden when not in fullscreen, otherwise can be shown with tab key/button
