@@ -151,25 +151,56 @@ async function getChatMessages() {
     }
 }
 
+let isLoadingChatMessages = false;
+
 async function loadChatMessages() {
-    const chatContainer = document.getElementById("chat-content");
-    chatContainer.innerHTML = "" // clear HTML first
-    const messages = await getChatMessages();
+    if (isLoadingChatMessages) return;
+    isLoadingChatMessages = true;
 
-    if (messages.length < 1) {
-        chatContainer.innerHTML = '<i class="time">Chat is empty...</i>';
-        return;
-    }
+    try {
+        const chatBtn = document.getElementById("mint-chat-btn");
+        if (!chatBtn || !chatBtn.classList.contains("enabled")) {
+            return;
+        }
 
-    // otherwise load messages
+        const chatContainer = document.getElementById("chat-content");
+        if (!chatContainer) return;
 
-    for (const message of messages) {
-        addChatMessage(message.text, message.username, message.created_at);
+        chatContainer.innerHTML = "";
+
+        const messages = await getChatMessages();
+
+        if (!Array.isArray(messages) || messages.length < 1) {
+            chatContainer.innerHTML = '<i class="time">Chat is empty...</i>';
+            return;
+        }
+
+        for (const message of messages) {
+            await addChatMessage(message.text, message.username, message.created_at);
+        }
+    } finally {
+        isLoadingChatMessages = false;
     }
 }
 
-loadChatMessages();
-addChatMessage("Hi", "unknown", new Date());
+const chatClose = document.querySelectorAll('[name="drag-close"]')[0];
+const chatWindow = document.querySelectorAll('[name="drag-move"]')[0];
+const chatBtn = document.getElementById("mint-chat-btn");
+
+chatClose.addEventListener("click", () => {
+    chatWindow.classList.remove("show");
+    chatBtn.classList.remove("enabled");
+});
+
+chatBtn.addEventListener("click", () => {
+    chatWindow.classList.add("show");
+    chatBtn.classList.add("enabled");
+    loadChatMessages();
+});
+
+const loadChatInterval = setInterval(loadChatMessages, 45000);
+
+
 // <span class="chat-bubble glass">${content}</span>
 // <span class="chat-time" data-time="${time}">${formattedTime}</span>
 // <span class="chat-user">${username}</span>

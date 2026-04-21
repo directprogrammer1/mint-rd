@@ -636,3 +636,16 @@ input::placeholder {
     margin-left: auto;
     color: var(--header);
 }
+.draggable.glass {
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+
+    transform: translateY(-40px);
+}
+.draggable.glass.show {
+    opacity: 1;
+    pointer-events: all;
+    
+    transform: translateY(0px);
+}
