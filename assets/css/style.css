@@ -42,39 +42,62 @@
     transform: translateY(-40px);
     transition: transform 0.3s ease;
 }
-
 :root {
-    --text: #4e4e4e !important;
-    --header: #71bb7b;
+    --text: #c6c7c6;
+    --text-soft: #5b645f;
+    --header: #4e8b63;
+    
+    --accent: rgba(120, 255, 170, 0.12);
 
-    --accent: #9bffc32b;
+    --glass-1: rgba(255, 255, 255, 0.1);
+    --glass-2: rgba(255, 255, 255, 0.08);
 
-    --glass-1: rgba(206, 206, 206, 0.15);
-    --glass-2: rgba(179, 179, 179, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --glass-highlight: rgba(255, 255, 255, 0.28);
+    --glass-shadow: rgba(0, 0, 0, 0.22);
 }
 .glass {
-    background: linear-gradient(
-        to bottom,
-        var(--glass-1),
-        var(--glass-2)
-    );
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background:
+        linear-gradient(to bottom, var(--glass-1), var(--glass-2));
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+
+    border: 1px solid var(--glass-border);
     border-radius: 20px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.13);
-    padding: 12.5px;
+
+    box-shadow:
+        0 12px 40px var(--glass-shadow),
+        inset 0 1px 0 var(--glass-highlight),
+        inset 0 -1px 0 rgba(255,255,255,0.03);
+
+    color: var(--text);
+    padding: 12px;
+    gap: 5px;
     position: relative;
-    border: 1px solid transparent;
     gap: 10px;
+    
     display: flex;
     flex-direction: column;
-    border: 1px solid rgba(114, 114, 114, 0.137);
+    
 }
 
-svg {
+.glass .glass {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.05),
+        rgba(255,255,255,0.025)
+    );
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.08),
+        0 6px 20px rgba(0,0,0,0.12);
+}
+
+.glass svg {
     color: var(--text);
 }
-
 .glass::before {
     content: "";
     position: absolute;
@@ -83,10 +106,10 @@ svg {
     pointer-events: none;
     background: linear-gradient(
         to bottom,
-        rgba(255, 255, 255, 0.411) 0%,
-        rgba(255, 255, 255, 0.03) 2px,
-        rgba(255, 255, 255, 0.01) 5px,
-        transparent 100%
+        rgba(255,255,255,0.20) 0%,
+        rgba(255,255,255,0.07) 3px,
+        rgba(255,255,255,0.02) 10px,
+        transparent 15px
     );
 }
 .glass.header {
@@ -105,10 +128,6 @@ svg {
 .glass.header svg {
     stroke: var(--header) !important;
 }
-.header h4 {
-    margin: 0;
-    font-size: 14px;
-}
 button[name="minimax"] {
     width: 30px;
     height: 30px;
@@ -126,18 +145,14 @@ button[name="minimax"] svg {
     padding: 0;
 }
 button.glass {
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
 }
 button.glass:hover {
     transform: translateY(-2px);
-    background: linear-gradient(
-        to bottom,
-        color-mix(in srgb, var(--glass-1), rgba(255, 255, 255, 0.1) 50%),
-        color-mix(in srgb, var(--glass-2), rgba(255, 255, 255, 0.1) 50%)
-        )
+    filter: brightness(1.1);
 }
 label.glass {
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
     background: linear-gradient(
         to bottom,
         color-mix(in srgb, var(--glass-1), transparent 30%),
@@ -146,11 +161,7 @@ label.glass {
 }
 label.glass:hover {
     transform: translateY(-2px);
-    background: linear-gradient(
-        to bottom,
-        color-mix(in srgb, var(--glass-1), rgba(255, 255, 255, 0.1) 50%),
-        color-mix(in srgb, var(--glass-2), rgba(255, 255, 255, 0.1) 50%)
-        )
+    filter: brightness(1.1);
 }
 label.glass * {
     color: var(--text)
@@ -197,15 +208,6 @@ label.glass * {
     overflow-y: auto;
     overflow-x: hidden;
      /* no background */
-}
-.glass * {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: linear-gradient(
-        to bottom,
-        color-mix(in srgb, var(--glass-1), transparent 75%),
-        color-mix(in srgb, var(--glass-2), transparent 75%)
-    );
 }
 
 .maximized .glass.body {
@@ -352,18 +354,18 @@ label.glass * {
 
     pointer-events: none;
 }
-input[type="text"] {
+input.glass[type="text"] {
     width: 135px;
     transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
     background: var(--glass-2);
 }
-input[type="text"]:focus {
+input.glass[type="text"]:focus {
     outline: none;
     border: 1px solid rgba(114, 168, 121, 0.137);
     background: var(--accent);
     color: var(--header);
 }
-input::placeholder {
+input.glass::placeholder {
     color: #c7ccc8;
 }
 .glass.menubar {
@@ -435,7 +437,7 @@ input::placeholder {
     background: rgba(187, 187, 187, 0.178);
 }
 .menubar-btn *, .menubar-btn {
-    color: var(--text);
+    color: var(--header) !important;
     font-family: "Manrope";
     font-size: 12px;
     stroke-width: 1.5px;
@@ -448,6 +450,7 @@ input::placeholder {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    gap: 5px;
 }
 .menubar img {
     border: 1px var(--header) solid;
@@ -512,10 +515,6 @@ input::placeholder {
 }
 .glass.drag-header * {
     color: var(--header);
-}
-.glass * {
-    font-family: "Manrope";
-    color: var(--text);
 }
 .drag-btns {
     display: flex;
@@ -652,4 +651,17 @@ input::placeholder {
     pointer-events: all;
     
     transform: translateY(0px);
+}
+.header.glass h4,
+.glass.option,
+.chat-user,
+.chat-time,
+input.glass,
+button.glass,
+label.glass {
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.22);
+}
+.chat-time,
+input.glass::placeholder {
+    color: var(--text-soft);
 }
