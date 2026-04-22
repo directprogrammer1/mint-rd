@@ -81,6 +81,78 @@ window.overlayKeydownHandler = (e) => {
     e.preventDefault();
 };
 
+const windows = document.querySelectorAll('[name="drag-move"]');
+
+windows.forEach((win) => {
+    const header = win.querySelector(".drag-header");
+    if (!header) return;
+
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    const startDrag = (clientX, clientY) => {
+        const rect = win.getBoundingClientRect();
+
+        // convert from bottom/right CSS positioning to left/top
+        win.style.left = rect.left + "px";
+        win.style.top = rect.top + "px";
+        win.style.right = "auto";
+        win.style.bottom = "auto";
+
+        offsetX = clientX - rect.left;
+        offsetY = clientY - rect.top;
+        isDragging = true;
+    };
+
+    const moveDrag = (clientX, clientY) => {
+        if (!isDragging) return;
+
+        const left = clientX - offsetX;
+        const top = clientY - offsetY;
+
+        const maxLeft = window.innerWidth - win.offsetWidth;
+        const maxTop = window.innerHeight - win.offsetHeight;
+
+        win.style.left = Math.max(0, Math.min(left, maxLeft)) + "px";
+        win.style.top = Math.max(0, Math.min(top, maxTop)) + "px";
+    };
+
+    const endDrag = () => {
+        isDragging = false;
+    };
+
+    header.addEventListener("mousedown", (e) => {
+        // don't start dragging if clicking a button/input inside the header
+        if (e.target.closest("button, input, textarea, select")) return;
+
+        e.preventDefault();
+        startDrag(e.clientX, e.clientY);
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        moveDrag(e.clientX, e.clientY);
+    });
+
+    document.addEventListener("mouseup", endDrag);
+
+    // touch support
+    header.addEventListener("touchstart", (e) => {
+        if (e.target.closest("button, input, textarea, select")) return;
+
+        const touch = e.touches[0];
+        startDrag(touch.clientX, touch.clientY);
+    }, { passive: true });
+
+    document.addEventListener("touchmove", (e) => {
+        const touch = e.touches[0];
+        if (!touch) return;
+        moveDrag(touch.clientX, touch.clientY);
+    }, { passive: true });
+
+    document.addEventListener("touchend", endDrag);
+});
+
 document.addEventListener("keydown", window.overlayKeydownHandler);
 
 window.overlayMutationObserver.observe(document.body, { attributes: true, subtree: true });

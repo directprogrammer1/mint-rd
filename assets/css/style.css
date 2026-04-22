@@ -44,7 +44,7 @@
 }
 
 :root {
-    --text: #282828 !important;
+    --text: #4e4e4e !important;
     --header: #71bb7b;
 
     --accent: #9bffc32b;
@@ -291,7 +291,7 @@ label.glass * {
 .option input[type="number"] {
     appearance: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.137);
-    width: 50px;
+    width: 55px;
     color: var(--text);
     font-family: "Consolas";
     transition: background 0.3s ease;
@@ -627,10 +627,14 @@ input::placeholder {
     flex: 1;
     max-height: max-content;
     text-align: center;
+    background: none;
+    backdrop-filter: none;
 }
 .chat-user {
     margin: 0 5px;
     font-weight: bold;
+    background: none;
+    backdrop-filter: none;
 }
 .chat-user.self {
     margin-left: auto;
