@@ -16,8 +16,8 @@
     z-index: 9999; /* very big number */
 
     opacity: 0;
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 
     transition: opacity 0.3s ease, backdrop-filter 0.3s ease;
 
@@ -44,7 +44,7 @@
 }
 :root {
     --text: #c6c7c6;
-    --text-soft: #5b645f;
+    --text-soft: #c6c7c65a;
     --header: #4e8b63;
     
     --accent: rgba(120, 255, 170, 0.12);
@@ -309,6 +309,7 @@ label.glass * {
 }
 .option input::placeholder {
     color: color-mix(in srgb, var(--text), transparent 40%);
+    font-style: italic;
 }
 .option input, .option input * {
     color: var(--text)
@@ -363,10 +364,11 @@ input.glass[type="text"]:focus {
     outline: none;
     border: 1px solid rgba(114, 168, 121, 0.137);
     background: var(--accent);
-    color: var(--header);
 }
 input.glass::placeholder {
     color: #c7ccc8;
+    font-style: italic;
+    -webkit-text-stroke: unset !important;
 }
 .glass.menubar {
     position: fixed;
@@ -472,7 +474,7 @@ input.glass::placeholder {
 
 .draggable {
     position: fixed;
-    z-index: 999999999;
+    z-index: 100000000;
     border: color-mix(in srgb, var(--accent), rgba(0, 0, 0, 0.39) 20%) 1px solid;
     box-shadow: 0 0 30px color-mix(in srgb, var(--header), transparent 50%);
     border-radius: 10px;
@@ -506,9 +508,9 @@ input.glass::placeholder {
     cursor: grab;
 
     position: absolute;
-    top: 8px;
-    left: 8px;
-    right: 8px;
+
+    inset: 8px;
+    bottom: unset;
 }
 .glass.drag-header:active {
     cursor: grabbing;
@@ -659,9 +661,117 @@ input.glass::placeholder {
 input.glass,
 button.glass,
 label.glass {
-    text-shadow: 0 0 1px rgba(0, 0, 0, 0.22);
+    -webkit-text-stroke: 0.3px color-mix(in srgb, currentColor, black 25%);
 }
 .chat-time,
 input.glass::placeholder {
     color: var(--text-soft);
+}
+#settings-content * input {
+    border-radius: 999px !important;
+}
+
+.settings.draggable {
+    width: 400px;
+    height: 350px; /* wider window for more space */
+    bottom: 95px;
+    right: 15px;
+}
+.terminal.draggable {
+    width: 700px;
+    height: 500px;
+    bottom: 95px;
+    left: 10px; /* larger window for more space */
+    /* VERY large */
+}
+#terminal-content {
+    background: #031300;
+    position: fixed;
+    inset: 10px;
+    top: 80px;
+    border-radius: 10px;
+    padding: 15px;
+
+    display: flex;
+    flex-direction: column;
+
+    cursor: text;
+
+    overflow: auto;
+    box-shadow: 0 0 20px #03130096;
+}
+#terminal-content, #terminal-content * {
+    font-family: "Consolas", monospace;
+    color: white;
+    font-size: 14px;
+}
+#terminal-content .input {
+    font-family: "Consolas", monospace;
+    appearance: none;
+    background: none;
+    color: white;
+    border: none;
+    font-size: 14px;
+    white-space: pre;
+    caret-color: white /* hide default caret and replace with thick one to look authneticic */; /* my horrible attempt at typing */;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    min-width: 1px;
+    flex: 1;
+}
+#terminal-content .input:focus {
+    outline: none;
+    border: none;
+}
+.terminal-row {
+    display: flex;
+    gap: 0;
+    flex-direction: row;
+}
+@keyframes typing {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+#fake-caret {
+    display: none;
+    width: 10px;
+    height: 2px;
+    background: white;
+    animation: typing 1s steps(1) infinite;
+    padding: 0;
+    margin: 0;
+    transform: translateY(calc(1em - 3px));
+}
+#terminal-content::selection, #terminal-content *::selection {
+    background: white;
+    color: #031300
+}
+#fake-caret:focus {
+    display: inline-block;
+}
+
+/* Terminal Keyword Coloring */
+
+.terminal-command {
+    color: #ffff92 !important;
+}
+.terminal-string {
+    color: #8fff45 !important;
+}
+.terminal-symbol {
+    color: #ff5252 !important;
+}
+.terminal-argument {
+    color: #aaaaaa !important;
+}
+.terminal-var {
+    color: #0066ff !important;
 }

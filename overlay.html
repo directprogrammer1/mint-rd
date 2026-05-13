@@ -1,10 +1,9 @@
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope">
-<link rel="stylesheet" href="/assets/css/style.css">
-<div style="position: fixed; inset: 0; background-color: white;"></div>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope" />
+<link rel="stylesheet" href="https://directprogrammer1.github.io/mint-client/assets/css/style.css" />
 <!-- fallback links -->
 <!-- temporarily show overlay while i'm testing -->
-<div class="overlay" name="show-toggle">
+<div class="overlay show" name="show-toggle">
     <div class="glass tab maximized">
         <div class="glass header">
             <button name="minimax" class="glass">
@@ -81,7 +80,7 @@
         <h3>Please enter fullscreen to show the overlay.</h3>
     </div>
 </div>
-<div class="menubar-wrapper" name="show-toggle">
+<div class="menubar-wrapper show">
     <div class="glass menubar">
         <a href="https://github.com/directprogrammer1/mint-client">
             <img src="https://directprogrammer1.github.io/mint-client/assets/mint-logo.ico">
@@ -100,10 +99,14 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 20h16" /><path d="M4 12h16" /><path d="M4 4h16" /></svg>
                 Hacks
             </button>
+            <button id="mint-settings-btn" class="menubar-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M19.875 6.27a2.225 2.225 0 0 1 1.125 1.948v7.284c0 .809 -.443 1.555 -1.158 1.948l-6.75 4.27a2.269 2.269 0 0 1 -2.184 0l-6.75 -4.27a2.225 2.225 0 0 1 -1.158 -1.948v-7.285c0 -.809 .443 -1.554 1.158 -1.947l6.75 -3.98a2.33 2.33 0 0 1 2.25 0l6.75 3.98h-.033" /><path d="M9 12a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /></svg>
+                Settings
+            </button>
         </div>
     </div>
 </div>
-<div class="draggable glass chat" name="drag-move">
+<div class="draggable glass chat show" name="drag-move">
     <div class="drag-content" style="overflow: visible; position: relative; z-index: 0;">
         <div id="chat-content">
         </div>
@@ -124,3 +127,114 @@
         </button>
     </div>
 </div>
+<div class="draggable glass settings show" name="drag-move">
+    <div id="settings-content" class="drag-content" style="overflow: visible; position: relative; z-index: 0; margin-top: 75px; padding: 10px;">
+        <label class="glass option">
+            Custom Clone Limit (max 1500)
+            <input type="number" id="clonelimit" min="0" value="0" max="1500">
+        </label>
+    </div>
+    <div class="drag-header glass">
+        <span>General Settings</span>
+        <div class="drag-btns">
+            <button class="glass" name="drag-close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M10 10l4 4m0 -4l-4 4" /></svg>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="draggable glass terminal show" name="drag-move">
+    <div name="drag-content" style="overflow: visible; position: relative; z-index: 99999999999999999699965;">
+        <div id="terminal-content">
+            <div class="terminal-row">
+                <span id="terminal-start">C:\></span>
+                <span style="margin-right: 4px;" id="cmd-text" class="input" contenteditable="true" spellcheck="false"></span>
+            </div>
+        </div>
+    </div>
+    <div class="drag-header glass">
+        <span>Terminal</span>
+        <div class="drag-btns">
+            <button class="glass" name="drag-close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M10 10l4 4m0 -4l-4 4" /></svg>
+            </button>
+        </div>
+    </div>
+</div>
+<script>
+function getPrjId() {
+    if (!["scratch.mit.edu", "turbowarp.org", "mirror.turbowarp.xyz"].includes(window.location.hostname)) {
+        log("Invalid host, returning default project ID", "error")
+        return "489159823";
+    }
+    let prjId = "489159823"
+    if (window.location.hostname === "scratch.mit.edu") {
+        prjId = parseInt(window.location.pathname.split("/")[2].replace(/\D/g, "").trim(),);
+    } else {
+        prjId = window.location.pathname.split("/")[1].replace(/\D/g, "").trim();
+    }
+
+    return prjId
+} // temp
+    
+let chatWS = null;
+
+let onChatOpen = null;
+let onChatMessage = null;
+let onChatClose = null;
+let onChatError = null;
+
+function connectWS() {
+    const prjId = getPrjId();
+    if (!prjId) return null;
+
+    chatWS = new WebSocket(`wss://mint-cloud.alwaysdata.net/backend/websockets/chat/${prjId}`);
+
+    chatWS.addEventListener("open", (event) => {
+        if (typeof onChatOpen === "function") {
+            onChatOpen(event, chatWS);
+        }
+    });
+
+    chatWS.addEventListener("message", (event) => {
+        let data = null;
+
+        try {
+            data = JSON.parse(event.data);
+        } catch (e) {
+            console.error("Invalid WS JSON", e);
+        }
+
+        if (typeof onChatMessage === "function") {
+            onChatMessage(data, event, chatWS);
+        }
+    });
+
+    chatWS.addEventListener("close", (event) => {
+        if (typeof onChatClose === "function") {
+            onChatClose(event, chatWS);
+        }
+    });
+
+    chatWS.addEventListener("error", (event) => {
+        if (typeof onChatError === "function") {
+            onChatError(event, chatWS);
+        }
+    });
+
+    return chatWS;
+}
+
+class chatWs {
+    constructor() {
+        const prjId = getPrjId() || 0;
+
+        ws = new WebSocket(`wss://mint-cloud.alwaysdata.net/backend/websockets/chat/${prjId}`);
+
+    }
+}
+
+function sendChat(msg) {
+    if (!document.getElementById("mint-chat-btn").classList.contains("enabled")) return; // chat is not open, so no WS
+}
+</script>

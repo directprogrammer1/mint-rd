@@ -86,6 +86,9 @@ async function runScript(src) {
     await runScript("https://directprogrammer1.github.io/mint-client/assets/js/ui/tab.js");
 
     await runScript("https://directprogrammer1.github.io/mint-client/assets/js/main/chat.js");
+
+    await runScript("https://directprogrammer1.github/io/mint-client/assets/js/terminal/main.js");
+    await runScript("https://directprogrammer1.github/io/mint-client/assets/js/terminal/highlight.js");
 })();
 
 // overlay should be hidden when not in fullscreen, otherwise can be shown with tab key/button
